@@ -1,0 +1,39 @@
+{
+	"info": {
+		"_postman_id": "d797e94f-32a0-41c8-853f-f5a165950559",
+		"name": "PDF Creation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "PDF Creation",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"CreatingPdf\":{\r\n        \"name\": \"suraj\",\r\n        \"role\": \"developer\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8081/pdfcreation",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"pdfcreation"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
