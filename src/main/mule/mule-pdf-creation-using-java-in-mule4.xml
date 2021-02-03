@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:java="http://www.mulesoft.org/schema/mule/java"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/java http://www.mulesoft.org/schema/mule/java/current/mule-java.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="a537fde8-8963-4ac3-b3e7-88d6625d7a9a" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="mule-pdf-creation-using-java-in-mule4Flow" doc:id="3f818823-437a-4d14-850a-bf1f72100a77" >
+		<http:listener doc:name="8081/pdfcreation" doc:id="a9f04ea3-06e5-40c1-8660-83932157532c" config-ref="HTTP_Listener_config" path="/pdfcreation"/>
+		<ee:transform doc:name="Transform Message" doc:id="4855934b-0024-4654-86a2-1a3f17c9bc3d" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output text/plain
+---
+"Date: " ++ now() as String ++ "\n" ++"\n" ++"\n" ++ "Hello " ++ payload.CreatingPdf.name ++  " , " ++"You are a " ++ payload.CreatingPdf.role]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<java:invoke-static doc:name="Invoke static" doc:id="8a7fc848-416d-446d-a26f-18c3e8eb852d" class="muledemo.CreatePdf" method="createPdf(java.lang.String)">
+			<java:args ><![CDATA[#[{
+	args: payload as String
+}]]]></java:args>
+		</java:invoke-static>
+		<logger level="INFO" doc:name="[INFO]PDF is created" doc:id="9b9b8cbb-b910-4a0d-a100-747d251c0f8a" message="PDF is created"/>
+	</flow>
+</mule>
